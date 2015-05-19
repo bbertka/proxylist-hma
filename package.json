@@ -1,0 +1,11 @@
+{
+  "name"         : "proxylist-hidemyass",
+  "version"      : "0.0.1",
+  "description"  : "Scrape HMA proxy lists.",
+  "main"         : "server.js",
+  "author"       : "Bertka",
+  "dependencies" : {
+    "express"    : "latest",
+    "request"    : "latest"
+  }
+}
