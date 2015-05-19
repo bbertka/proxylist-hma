@@ -74,18 +74,16 @@ function getProxies(index, responder){
 	})
 }
 
-function callback(responder){
+function callback(res){
 	var hma_proxy_list;
         var json = { hma_proxy_list: httpProxies};
         console.log(JSON.stringify(json, null, 4));
-        responder.send(JSON.stringify(json, null, 4))
+	res.send(json)
 }
 
 app.get('/', function(req, res){
-    responder = res
-    index = 1
-    getProxies(index, responder)
-
+    res.type('text/plain');
+    getProxies(1, res)
 })
 
 // process.env.PORT lets the port be set by Heroku
