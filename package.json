@@ -1,5 +1,5 @@
 {
-  "name"         : "proxylist-hidemyass",
+  "name"         : "proxylist",
   "version"      : "0.0.1",
   "description"  : "Scrape HMA proxy lists.",
   "main"         : "server.js",
