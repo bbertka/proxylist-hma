@@ -96,7 +96,7 @@ function callback(res, route){
 
 app.get('/', function(req, res){
     res.type('text/plain');
-    message = "Welcome to proxylist.herokuapp.com!"
+    message = "Welcome to proxylist.herokuapp.com"
     console.log(message)
     res.send(message)
 })
