@@ -8,7 +8,7 @@ var app     = express();
 var httpProxies = [];
 var url = 'http://www.hidemyass.com/proxy-list/'
 
-function getProxies(index, responder){
+function getProxies(index, route, responder){
 
 	fakeNums = {};
 	var i = ((index == 1) ? '' : index);
@@ -58,7 +58,12 @@ function getProxies(index, responder){
 			if(ports.length == 0 || ports.length != ips.length || ips.length != types.length)
 				throw "Regex parsing has failed."
 
-			for(var i = 0; i < ips.length; i++){
+			max = ips.length
+			if(route=='latest'){
+				max = 1
+			}
+
+			for(var i = 0; i < max; i++){
 				if(types[i] == 'HTTP' || types[i] == 'HTTPS'){
 					count++
 					var address, port, type;
@@ -66,7 +71,11 @@ function getProxies(index, responder){
 				}
 			}
 			console.log('server.js: getProxies(): collected ' + count + ' proxies')
-			getProxies(index+1, responder)
+			if(route != 'latest'){
+				getProxies(index+1, route, responder)
+			}else{
+				callback(responder)
+			}
 		}else{
 
 			callback(responder)
@@ -83,7 +92,25 @@ function callback(res){
 
 app.get('/', function(req, res){
     res.type('text/plain');
-    getProxies(1, res)
+    message = "Welcome to proxylist-hidemyass.herokuapp.com!"
+    console.log(message)
+    res.send(message)
+})
+
+app.get('/all', function(req, res){
+    httpProxies = []
+    res.type('text/plain');
+    message = "Fetching full proxylist"
+    console.log(message)
+    getProxies(1, 'all', res)
+})
+
+app.get('/latest', function(req, res){
+    httpProxies = []
+    res.type('text/plain');
+    message = "Fetching latest proxy from proxylist"
+    console.log(message)
+    getProxies(1, 'latest', res)
 })
 
 // process.env.PORT lets the port be set by Heroku
