@@ -81,7 +81,7 @@ function callback(responder){
         responder.send(JSON.stringify(json, null, 4))
 }
 
-app.get('/scrape', function(req, res){
+app.get('/', function(req, res){
     responder = res
     index = 1
     getProxies(index, responder)
