@@ -5,17 +5,15 @@ Adapted from https://github.com/sdrobs/HMA-Proxy-Scraper
 var express = require('express');
 var request = require('request');
 var app     = express();
-
 var httpProxies = [];
-//var url1 = 'http://proxylist.hidemyass.com/search-1311077/'
-var url2 = 'http://www.hidemyass.com/proxy-list/'
+var url = 'http://www.hidemyass.com/proxy-list/'
 
 function getProxies(index, responder){
 
 	fakeNums = {};
 	var i = ((index == 1) ? '' : index);
 
-	request(url2 + i, function(err,res,body){
+	request(url + i, function(err,res,body){
 		if(!res || res.statusCode != 200)
 			throw "Response code was not 200"
 
@@ -53,8 +51,9 @@ function getProxies(index, responder){
 		    temp = temp.replace(/<(.*?)>/g,'')
 		    ips.push(temp)
 		})
+
 		var count = 0
-		
+
 		if(ips.length > 0){
 			if(ports.length == 0 || ports.length != ips.length || ips.length != types.length)
 				throw "Regex parsing has failed."
@@ -70,34 +69,27 @@ function getProxies(index, responder){
 			getProxies(index+1, responder)
 		}else{
 
-			callback(count, responder)
-		}
-		
+			callback(responder)
+		}	
 	})
-
 }
 
-function callback(count, responder){
+function callback(responder){
 	var hma_proxy_list;
         var json = { hma_proxy_list: httpProxies};
-
-	console.log('server.js: getProxies(): collected ' + count + ' proxies')
-
         console.log(JSON.stringify(json, null, 4));
         responder.send(JSON.stringify(json, null, 4))
-	//console.log(httpProxies)
-        //responder.send(JSON.stringify({'proxy_list': httpProxies})
 }
 
-
-
 app.get('/scrape', function(req, res){
-    url = 'http://www.hidemyass.com/proxy-list/';
     responder = res
     index = 1
-    getProxies(url, responder, index)
+    getProxies(index, responder)
 
 })
-app.listen('8080')
-console.log('Magic happens on port 8080');
+
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8080;
+app.listen(port)
+console.log('Scraper happens on port 8080');
 exports = module.exports = app; 
