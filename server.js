@@ -84,11 +84,11 @@ function getProxies(index, route, responder){
 }
 
 function callback(res, route){
-	var hma_proxy_list, json;
+	var proxy_list, json;
         if(route == 'random'){
-		json = { hma_proxy_list: [ httpProxies[Math.floor(Math.random()*httpProxies.length)] ] }
+		json = { proxy_list: [ httpProxies[Math.floor(Math.random()*httpProxies.length)] ] }
 	}else{
-        	json = { hma_proxy_list: httpProxies};
+        	json = { proxy_list: httpProxies};
 	}
         console.log(JSON.stringify(json, null, 4));
 	res.send(json)
@@ -96,7 +96,7 @@ function callback(res, route){
 
 app.get('/', function(req, res){
     res.type('text/plain');
-    message = "Welcome to proxylist-hidemyass.herokuapp.com!"
+    message = "Welcome to proxylist.herokuapp.com!"
     console.log(message)
     res.send(message)
 })
