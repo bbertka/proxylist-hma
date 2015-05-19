@@ -74,18 +74,22 @@ function getProxies(index, route, responder){
 			if(route != 'latest'){
 				getProxies(index+1, route, responder)
 			}else{
-				callback(responder)
+				callback(responder, route)
 			}
 		}else{
 
-			callback(responder)
+			callback(responder, route)
 		}	
 	})
 }
 
-function callback(res){
-	var hma_proxy_list;
-        var json = { hma_proxy_list: httpProxies};
+function callback(res, route){
+	var hma_proxy_list, json;
+        if(route == 'random'){
+		json = { hma_proxy_list: [ httpProxies[Math.floor(Math.random()*httpProxies.length)] ] }
+	}else{
+        	json = { hma_proxy_list: httpProxies};
+	}
         console.log(JSON.stringify(json, null, 4));
 	res.send(json)
 }
@@ -112,6 +116,19 @@ app.get('/latest', function(req, res){
     console.log(message)
     getProxies(1, 'latest', res)
 })
+
+app.get('/random', function(req, res){
+    res.type('text/plain');
+    message = "Fetching random proxy from proxylist"
+    console.log(message)
+    if(httpProxies.length > 1){
+	callback(res, 'random')
+    }else{
+        httpProxies = []
+        getProxies(1, 'random', res)
+    }
+})
+
 
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8080;
