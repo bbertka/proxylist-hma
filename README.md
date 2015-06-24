@@ -9,8 +9,9 @@ https://github.com/sdrobs/HMA-Proxy-Scraper
 
 Demo:
 
-https://proxylist.herokuapp.com
+https://proxylist.cfapps.io
 
-https://proxylist.herokuapp.com/latest
+https://proxylist.cfapps.io/random/https
 
+https://proxylist.cfapps.io/random/http
 
