@@ -1,11 +1,27 @@
 {
-  "name"         : "proxylist",
-  "version"      : "0.0.1",
-  "description"  : "Scrape HMA proxy lists.",
-  "main"         : "server.js",
-  "author"       : "Bertka",
-  "dependencies" : {
-    "express"    : "latest",
-    "request"    : "latest"
+  "name": "proxylist",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Brian Byers",
+  "dependencies": {
+    "bluebird": "^2.9.30",
+    "hapi": "^8.6.1",
+    "redis": "^0.12.1"
+  },
+  "engines": {
+    "node": "0.12.2",
+    "npm": "2.7.4"
+  },
+  "scripts": {
+    "start": "node app.js --use_strict"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-bower": "0.0.10",
+    "gulp-jslint": "^0.2.2",
+    "gulp-mocha": "^2.0.0",
+    "mocha": "^2.1.0"
   }
 }

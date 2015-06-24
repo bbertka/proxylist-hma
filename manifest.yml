@@ -1,0 +1,8 @@
+---
+applications:
+- name: proxylist
+  memory: 128M
+  instances: 1
+  host: proxylist
+  command: "node app.js"
+  path: 'target'
