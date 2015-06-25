@@ -60,12 +60,10 @@ function resetProxyList() {
 function refreshProxies() {
     console.log('app.js: refreshProxies()');
     resetProxyList();
-    getProxies(1);
-    getProxies(2);
-    getProxies(3);
-    getProxies(4);
-    getProxies(5);
-    
+
+    for (var i = 1; i <= 5; i++) {
+        getProxies(i);
+    }
 }
 
 function addProxy(proxy) {
@@ -95,6 +93,7 @@ function addLatestProxy(proxy) {
 function listProxies (request, reply) {
     if (!proxyListExists()) {
         reply([]);
+        return;
     }   
 
     var proxyies = []
@@ -113,6 +112,7 @@ function listProxies (request, reply) {
 function randomProxy (request, reply) {
     if (!proxyListExists()) {
         reply({});
+        return;
     }
 
     var proxy = {};
@@ -130,6 +130,7 @@ function randomProxy (request, reply) {
 function latestProxy (request, reply) {
     if (!proxyListExists()) {
         reply({});
+        return;
     }
 
     var proxy = {};
@@ -189,7 +190,7 @@ function getProxies(page){
     fakeNums = {};
     request(url + page, function(err, res, body){
         if (err || !res || res.statusCode !== 200) {
-            console.log("Response code was not 200");
+            console.log("Response code was " + res.statusCode);
             return;
         }
 
